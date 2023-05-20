@@ -11,7 +11,7 @@ import Countdown from "react-countdown";
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { GatewayProvider } from "@civic/solana-gateway-react";
-import { defaultGuardGroup, network } from "./config";
+import { defaultGuardGroup, network, collectionName, twitter, discord, website, description } from "./config";
 import { MultiMintButton } from "./MultiMintButton";
 //import { MintButton } from "./MintButton";
 import {
@@ -100,7 +100,7 @@ const Other = styled.div`
 const ImageWrap = styled.div`
   aspect-ratio: 1 / 1;
   width: 100%;
-  background-image: url(https://images.pexels.com/photos/2832432/pexels-photo-2832432.png);
+  background-image: url(https://www.emgram.ch/wp-content/uploads/2022/09/logo_gold_transparent_normal_header-e1664381723677.png);
   border-radius: 16px;
 `
 const Image = styled.div`
@@ -424,7 +424,7 @@ export interface HomeProps {
 const candyMachinOps = {
   allowLists: [
     {
-      list: require("../cmv3-demo-initialization/allowlist.json"),
+      list: require("./allowlists/og_allowlist.json"),
       groupLabel: "OG",
     },
   ],
@@ -647,7 +647,7 @@ const Home = (props: HomeProps) => {
           <Container>
             <Column>
               <Content>
-                <CollectionName>Collection Name</CollectionName>
+                <CollectionName>{ collectionName }</CollectionName>
                 <InfoRow>
                   {guardStates.isStarted && wallet.publicKey && (
                     <InfoBox>
@@ -655,12 +655,12 @@ const Home = (props: HomeProps) => {
                       <p>{candyMachineV3.items.available}{" "}</p>
                     </InfoBox>)}
                   <IconRow>
-                    <a href="#" target="_blank" rel="noopener noreferrer"><Globe></Globe></a>
-                    <a href="#" target="_blank" rel="noopener noreferrer"><Twitter></Twitter></a>
-                    <a href="#" target="_blank" rel="noopener noreferrer"><Discord></Discord></a>
+                    <a href={ website } target="_blank" rel="noopener noreferrer"><Globe></Globe></a>
+                    <a href={ twitter } target="_blank" rel="noopener noreferrer"><Twitter></Twitter></a>
+                    <a href={ discord } target="_blank" rel="noopener noreferrer"><Discord></Discord></a>
                   </IconRow>
                 </InfoRow>
-                <CollectionDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</CollectionDescription>
+                <CollectionDescription>{ description }</CollectionDescription>
               </Content>
               <Other>
 
