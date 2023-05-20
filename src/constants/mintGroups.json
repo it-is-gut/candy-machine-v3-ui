@@ -4,7 +4,7 @@
     "description": "Only selected wallets can mint.",
     "groups": [
       {
-        "label": "OGs"
+        "label": "OG"
       }
     ]
   },
@@ -13,7 +13,7 @@
     "description": "Only users who are whitelisted can mint.",
     "groups": [
       {
-        "label": "Wl"
+        "label": "WL"
       }
     ]
   },
@@ -22,7 +22,7 @@
     "description": "Everyone can mint, no limit.",
     "groups": [
       {
-        "label": "Public"
+        "label": "public"
       }
     ]
   }
