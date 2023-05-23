@@ -511,73 +511,12 @@ const Home = (props: HomeProps) => {
     });
   }, [confetti]);
 
-  const startMint = useCallback(
-    async (quantityString: number = 1) => {
-      const nftGuards: NftPaymentMintSettings[] = Array(quantityString)
-        .fill(undefined)
-        .map((_, i) => {
-          return {
-            burn: guards.burn?.nfts?.length
-              ? {
-                mint: guards.burn.nfts[i]?.mintAddress,
-              }
-              : undefined,
-            payment: guards.payment?.nfts?.length
-              ? {
-                mint: guards.payment.nfts[i]?.mintAddress,
-              }
-              : undefined,
-            gate: guards.gate?.nfts?.length
-              ? {
-                mint: guards.gate.nfts[i]?.mintAddress,
-              }
-              : undefined,
-          };
-        });
-
-      console.log({ nftGuards });
-      // debugger;
-      candyMachineV3
-        .mint(quantityString, {
-          groupLabel: guardLabel,
-          nftGuards,
-        })
-        .then((items) => {
-          setMintedItems(items as any);
-        })
-        .catch((e) =>
-          setAlertState({
-            open: true,
-            message: e.message,
-            severity: "error",
-          })
-        );
-    },
-    [candyMachineV3.mint, guards]
-  );
-
+ 
   useEffect(() => {
     console.log({ candyMachine: candyMachineV3.candyMachine });
   }, [candyMachineV3.candyMachine]);
 
-  const MintButton = ({
-    gatekeeperNetwork,
-  }: {
-    gatekeeperNetwork?: PublicKey;
-  }) => (
-    <MultiMintButton
-      candyMachine={candyMachineV3.candyMachine}
-      gatekeeperNetwork={gatekeeperNetwork}
-      isMinting={candyMachineV3.status.minting}
-      setIsMinting={() => { }}
-      isActive={!!candyMachineV3.items.remaining}
-      isEnded={guardStates.isEnded}
-      isSoldOut={!candyMachineV3.items.remaining}
-      guardStates={guardStates}
-      onMint={startMint}
-      prices={prices}
-    />
-  );
+
 
   // Icons
   const Globe = (props) => (

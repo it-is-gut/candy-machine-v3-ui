@@ -1,6 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import React from "react";
+import React, { useCallback } from "react";
 import { CandyMachineV3, NftPaymentMintSettings } from "../hooks/types";
 import { MultiMintButton } from "../MultiMintButton";
 import { MintGroupMetadata } from "./types";
@@ -8,6 +8,14 @@ import styled from "styled-components";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Paper } from "@material-ui/core";
 import { GatewayProvider } from "@civic/solana-gateway-react";
+import { DefaultCandyGuardRouteSettings, Nft } from "@metaplex-foundation/js";
+import { useEffect, useMemo, useState } from "react";
+import NftsModal from "../NftsModal";
+import { network } from "../config";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import confetti from "canvas-confetti";
+
+
 
 
 const MintedByYou = styled.span`
@@ -119,6 +127,31 @@ export default function MintGroup({
   const { connection } = useConnection();
   const wallet = useWallet();
 
+  const [mintedItems, setMintedItems] = useState<Nft[]>();
+
+  useEffect(() => {
+    if (mintedItems?.length === 0) throwConfetti();
+  }, [mintedItems]);
+
+  const openOnSolscan = useCallback((mint) => {
+    window.open(
+      `https://solscan.io/address/${mint}${[WalletAdapterNetwork.Devnet, WalletAdapterNetwork.Testnet].includes(
+        network
+      )
+        ? `?cluster=${network}`
+        : ""
+      }`
+    );
+  }, []);
+
+  const throwConfetti = useCallback(() => {
+    confetti({
+      particleCount: 400,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  }, [confetti]);
+
   const { guards, guardStates, prices } = React.useMemo(
     () => ({
       guards:
@@ -182,7 +215,7 @@ export default function MintGroup({
           nftGuards,
         })
         .then((items) => {
-          // setMintedItems(items as any);
+          setMintedItems(items as any);
           console.log("minted", items);
         })
         .catch(
@@ -247,7 +280,10 @@ export default function MintGroup({
                   <MintButton gatekeeperNetwork={guards.gatekeeperNetwork} />
                 </GatewayProvider>
               ) : (
-                <MintButton />
+                <><MintButton /><NftsModal
+                          openOnSolscan={openOnSolscan}
+                          mintedItems={mintedItems || []}
+                          setMintedItems={setMintedItems} /></>
               )}
             </>
           </>
