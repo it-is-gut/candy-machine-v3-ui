@@ -7,6 +7,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import { GatewayStatus, useGateway } from "@civic/solana-gateway-react";
 import { GuardGroupStates, ParsedPricesForUI, PaymentRequired } from "./hooks/types";
+import { BarLoader, MoonLoader } from "react-spinners";
 
 // Icons
 const MinusIcon = (props) => (
@@ -344,8 +345,9 @@ export const MultiMintButton = ({
             mintCount > limit ? (
               "LIMIT REACHED"
             ) : isMinting || loading ? (
-              "PLEASE WAIT, MINT IN PROGRESS"
-            ) : (
+          <BarLoader
+          color="#FFFFFF"/>
+                        ) : (
               "MINT"
             )
           ) : isEnded ? (
