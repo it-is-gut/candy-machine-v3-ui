@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { yellow } from "@material-ui/core/colors";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
+import confetti from "canvas-confetti";
+
 
 import { Nft, NftWithToken } from "@metaplex-foundation/js";
 export const Action = styled.button`
@@ -57,18 +59,35 @@ export default function NftsModal({
   setMintedItems: any;
   openOnSolscan: (key: string) => void
 }) {
+
+  const [imageLoaded, setImageLoaded] = React.useState(false);
+
   const handleClose = () => {
-    setMintedItems([]);
+    setMintedItems([]); 
   };
+
+  useEffect(() => {
+    if (!!mintedItems.length) throwConfetti();
+  }, [mintedItems]);
+
+  const throwConfetti = useCallback(() => {
+    confetti({
+      particleCount: 400,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  }, [confetti]);
+
 
   return (
     <Dialog
-      open={!!mintedItems.length}
+      open={!!mintedItems.length && imageLoaded}
       keepMounted
       onClose={handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
       maxWidth={"md"}
+      
     >
       <DialogActions>
         <DialogTitle id="alert-dialog-slide-title">
@@ -87,10 +106,8 @@ export default function NftsModal({
                     {nft.json.image && (
                       <CardMedia
                         component="img"
-                        //   alt="Contemplative Reptile"
-                        //   height="140"
                         image={nft.json.image}
-                        //   title="Contemplative Reptile"
+                        onLoad={() => setImageLoaded( true )}
                       />
                     )}
                     <CardContent>

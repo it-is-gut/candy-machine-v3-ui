@@ -488,9 +488,6 @@ const Home = (props: HomeProps) => {
     })();
   }, [wallet, connection]);
 
-  useEffect(() => {
-    if (mintedItems?.length === 0) throwConfetti();
-  }, [mintedItems]);
 
   const openOnSolscan = useCallback((mint) => {
     window.open(
@@ -502,14 +499,6 @@ const Home = (props: HomeProps) => {
       }`
     );
   }, []);
-
-  const throwConfetti = useCallback(() => {
-    confetti({
-      particleCount: 400,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  }, [confetti]);
 
  
   useEffect(() => {

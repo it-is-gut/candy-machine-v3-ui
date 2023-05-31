@@ -129,10 +129,6 @@ export default function MintGroup({
 
   const [mintedItems, setMintedItems] = useState<Nft[]>();
 
-  useEffect(() => {
-    if (mintedItems?.length === 0) throwConfetti();
-  }, [mintedItems]);
-
   const openOnSolscan = useCallback((mint) => {
     window.open(
       `https://solscan.io/address/${mint}${[WalletAdapterNetwork.Devnet, WalletAdapterNetwork.Testnet].includes(
@@ -143,14 +139,6 @@ export default function MintGroup({
       }`
     );
   }, []);
-
-  const throwConfetti = useCallback(() => {
-    confetti({
-      particleCount: 400,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
-  }, [confetti]);
 
   const { guards, guardStates, prices } = React.useMemo(
     () => ({
