@@ -81,7 +81,7 @@ export default function NftsModal({
 
   return (
     <Dialog
-      open={!!mintedItems.length && imageLoaded}
+      open={mintedItems.length > 0 && imageLoaded}
       keepMounted
       onClose={handleClose}
       aria-labelledby="alert-dialog-slide-title"
@@ -107,7 +107,7 @@ export default function NftsModal({
                       <CardMedia
                         component="img"
                         image={nft.json.image}
-                        onLoad={() => setImageLoaded( true )}
+                        onLoad={() => setImageLoaded(true)}
                       />
                     )}
                     <CardContent>
