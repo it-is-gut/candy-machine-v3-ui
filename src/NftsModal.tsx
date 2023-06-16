@@ -23,6 +23,7 @@ export const Action = styled.button`
   flex-direction: row;
   align-items: flex-start;
   padding: 10px 16px;
+  margin: 10px;
   gap: 10px;
   background: var(--primary);
   border-radius: 4px;
@@ -104,10 +105,11 @@ export default function NftsModal({
                 <Card>
                   <CardActionArea>
                     {nft.json.image && (
-                      <CardMedia
+                      <CardMedia  
                         component="img"
                         image={nft.json.image}
                         onLoad={() => setImageLoaded(true)}
+                        style={{ margin: 10 }}
                       />
                     )}
                     <CardContent>
